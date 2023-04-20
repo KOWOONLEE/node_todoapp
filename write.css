@@ -1,0 +1,29 @@
+.writeContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.writeContainer h4 {
+  margin-top: 30px;
+}
+
+.writeContainer p {
+  margin-top: 20px;
+}
+.titleInput {
+  width: 250px;
+  border: 1px solid gray;
+  border-radius: 5px;
+}
+.contentInput {
+  width: 250px;
+  height: 10vh;
+  border: 1px solid gray;
+  border-radius: 5px;
+}
+.submitBtn {
+  margin-top: 20px;
+  border: 1px solid gray;
+  border-radius: 5px;
+  background-color: white;
+}

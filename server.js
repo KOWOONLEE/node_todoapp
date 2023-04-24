@@ -3,12 +3,16 @@ const app = express();
 // const bodyParser = require("body-parser");
 // app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
-app.listen(8080, function () {
-  console.log("listening on 8080");
-});
+// app.listen(8080, function () {
+//   console.log("listening on 8080");
+// });
+// "mongodb+srv://admin:rhdns3901@cluster0.dambb0b.mongodb.net/?retryWrites=true&w=majority"
+
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const uri =
   "mongodb+srv://admin:rhdns3901@cluster0.dambb0b.mongodb.net/?retryWrites=true&w=majority";
+
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -16,17 +20,21 @@ const client = new MongoClient(uri, {
     deprecationErrors: true,
   },
 });
+
 async function run() {
   try {
-    // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
+    db = client.db("todoapp");
+    // collection = await db.collection("post");
+    await db
+      .collection("post")
+      .insertOne({ 이름: "kowoon", 나이: 20 }, function (error, result) {
+        console.log("저장완료");
+      });
+    app.listen(8080, function () {
+      console.log("listening on 8080");
+    });
   } finally {
-    // Ensures that the client will close when you finish/error
     await client.close();
   }
 }

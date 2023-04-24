@@ -28,7 +28,7 @@ async function run() {
     // collection = await db.collection("post");
     await db
       .collection("post")
-      .insertOne({ 이름: "kowoon", 나이: 20 }, function (error, result) {
+      .insertOne({ title: "kowoon", contents: 20 }, function (error, result) {
         console.log("저장완료");
       });
     app.listen(8080, function () {
@@ -52,7 +52,22 @@ app.get("/write", function (req, res) {
 
 app.post("/add", function (req, res) {
   res.send("전송완료");
-  console.log(req.body.title);
-  console.log(req.body.contents);
   console.log(req.body);
+  async function run() {
+    try {
+      await client.connect();
+      db = client.db("todoapp");
+      await db
+        .collection("post")
+        .insertOne(
+          { title: req.body.title, contents: req.body.title },
+          function (error, result) {
+            console.log("저장완료");
+          }
+        );
+    } finally {
+      await client.close();
+    }
+  }
+  run().catch(console.dir);
 });

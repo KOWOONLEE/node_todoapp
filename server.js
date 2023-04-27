@@ -31,21 +31,50 @@ app.get("/write", function (req, res) {
   res.sendFile(__dirname + "/write.html");
 });
 
+//글 생성하기
 app.post("/add", function (req, res) {
   res.send("전송완료");
-  console.log(req.body);
-  db.collection("post").insertOne(
-    { title: req.body.title, contents: req.body.contents },
-    function () {
-      console.log("저장완료");
+  db.collection("counter").findOne(
+    { name: "게시물갯수" },
+    function (error, result) {
+      let totalPostCount = result.totalPost;
+      db.collection("post").insertOne(
+        {
+          _id: totalPostCount + 1,
+          title: req.body.title,
+          contents: req.body.contents,
+        },
+        function (error, result) {
+          //update operator $set 바꿀값, $inc 증가값
+          db.collection("counter").updateOne(
+            { name: "게시물갯수" },
+            { $inc: { totalPost: 1 } },
+            function (error, result) {
+              if (error) {
+                return console.log(error);
+              }
+            }
+          );
+        }
+      );
     }
   );
 });
+//글 보여주기
 app.get("/list", function (req, res) {
   db.collection("post")
     .find()
     .toArray(function (error, result) {
-      console.log(result);
       res.render("list.ejs", { posts: result });
     });
 });
+//글 삭제하기
+app.delete("/delete", function (req, 응답) {
+  req.body._id = parseInt(req.body._id);
+  db.collection("post").deleteOne(req.body, function (에러, 결과) {
+    console.log(req.body);
+    console.log("삭제완료");
+  });
+  응답.send("삭제완료");
+});
+//req.body에 담겨온 게시물 번호를 가진 글을 db에서 삭제해줘라

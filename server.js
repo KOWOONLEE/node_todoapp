@@ -69,12 +69,11 @@ app.get("/list", function (req, res) {
     });
 });
 //글 삭제하기
-app.delete("/delete", function (req, 응답) {
+app.delete("/delete", function (req, res) {
   req.body._id = parseInt(req.body._id);
-  db.collection("post").deleteOne(req.body, function (에러, 결과) {
-    console.log(req.body);
+  db.collection("post").deleteOne(req.body, function (error, result) {
     console.log("삭제완료");
+    res.status(200).send({ message: "성공함." });
   });
-  응답.send("삭제완료");
 });
 //req.body에 담겨온 게시물 번호를 가진 글을 db에서 삭제해줘라

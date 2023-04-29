@@ -41,42 +41,11 @@
         </ul>
       </div>
     </nav>
-
-    <ul class="list-group">
-      <% for (var i = 0; i < posts.length; i ++) { %>
-      <a></a>
-      <li class="list-group-item">
-        <h4><%= posts[i].title %></h4>
-        <p><%= posts[i].contents %></p>
-        <button class="delete" data-id=" <%= posts[i]._id%>">삭제</button>
-      </li>
-      <% } %>
-    </ul>
+    <h2>상세페이지</h2>
+    <h4>제목 : <%= idNum.title %></h4>
+    <h4>상세 내용 : <%= idNum.contents %></h4>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script>
-      $(".delete").click(function (e) {
-        let listNum = e.target.dataset.id;
-        let nowClick = $(this); //$(e.target)으로 대체 가능함.
-        $.ajax({
-          method: "DELETE",
-          url: "/delete",
-          data: { _id: listNum },
-        })
-          //성공시
-          .done(function (result) {
-            //페이지를 강제로 새로고침해주세요
-            console.log("성공함");
-            //삭제버튼을 누른 <li>요소를 제거해주세요
-            //지금 클릭한 요소의 부모 중에 li요소를 찾아서 fadeout해주라
-            nowClick.parent("li").fadeOut();
-          })
-          //실패시
-          //textStatus 응답코드, errorThrown 에러메세지
-          .fail(function (xhr, textStatus, errorThrown) {
-            console.log(xhr, textStatus, errorThrown);
-          });
-      });
-    </script>
+    <script></script>
 
     <script
       src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"

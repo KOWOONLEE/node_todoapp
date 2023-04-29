@@ -77,3 +77,15 @@ app.delete("/delete", function (req, res) {
   });
 });
 //req.body에 담겨온 게시물 번호를 가진 글을 db에서 삭제해줘라
+
+//detail/[i]로 접속하면 detail[i].ejs 내용 보여주기 <parameter>
+app.get("/detail/:id", function (req, res) {
+  db.collection("post").findOne(
+    parseInt({ _id: req.params.id }),
+    function (error, result) {
+      //findOne찾고 싶은 데이터 찾기
+      console.log(result);
+      res.render("detail.ejs", { idNum: result });
+    }
+  );
+});
